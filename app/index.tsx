@@ -1,8 +1,40 @@
-import { useState } from "react";
+import { useAppState } from "@/hooks/useAppState";
+import SharedUserDefaultsModule from "@/modules/shared-user-defaults/src/SharedUserDefaultsModule";
+import WidgetRefreshModule from "@/modules/widget-refresh/src/WidgetRefreshModule";
+import { useCallback, useEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 
 export default function Index() {
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState(0)
+  const appState = useAppState()
+
+  useEffect(() => {
+    if (appState === "active") {
+      (async () => {
+        try {
+          const count = await SharedUserDefaultsModule.getDataFromSharedUserDefaults("counter")
+          setCounter(count)
+        } catch (error) {
+          return error
+        }
+      })()
+    }
+  }, [appState])
+
+  const handleOnIncrement = useCallback(async () => {
+    let newCount = counter + 1;
+    setCounter(newCount)
+    await SharedUserDefaultsModule.setDataInSharedUserDefaults(newCount, "counter")
+    await WidgetRefreshModule.reloadAllTimelines()
+  }, [counter])
+
+  const handleOnDecrement = useCallback(async () => {
+    let newCount = counter - 1;
+    setCounter(newCount)
+    await SharedUserDefaultsModule.setDataInSharedUserDefaults(newCount, "counter")
+    await WidgetRefreshModule.reloadAllTimelines()
+  }, [counter])
+
   return (
     <View
       style={{
@@ -13,9 +45,7 @@ export default function Index() {
       }}
     >
       <Pressable
-        onPress={() => {
-          setCounter(counter + 1);
-        }}
+        onPress={handleOnIncrement}
         style={({pressed}) => [
           {
             backgroundColor: pressed ? "#EEE" : "#FAFAFA",
@@ -29,9 +59,7 @@ export default function Index() {
         <Text style={{ color: "#1D1B1D", fontSize: 16 }}>Increment</Text>
       </Pressable>
       <Pressable
-        onPress={() => {
-          setCounter(counter - 1);
-        }}
+        onPress={handleOnDecrement}
         style={({pressed}) => [
           {
             backgroundColor: pressed ? "#EEE" : "#FAFAFA",

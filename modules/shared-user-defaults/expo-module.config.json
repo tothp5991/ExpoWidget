@@ -1,0 +1,17 @@
+{
+  "platforms": [
+    "apple",
+    "android",
+    "web"
+  ],
+  "apple": {
+    "modules": [
+      "SharedUserDefaultsModule"
+    ]
+  },
+  "android": {
+    "modules": [
+      "expo.modules.shareduserdefaults.SharedUserDefaultsModule"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "platforms": [
+    "apple",
+    "android",
+    "web"
+  ],
+  "apple": {
+    "modules": [
+      "WidgetRefreshModule"
+    ]
+  },
+  "android": {
+    "modules": [
+      "expo.modules.widgetrefresh.WidgetRefreshModule"
+    ]
+  }
+}

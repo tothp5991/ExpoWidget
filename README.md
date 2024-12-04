@@ -1,6 +1,6 @@
 # Interactive widgets in Expo managed react native apps
 
-LINK TO BLOG POST
+Detailed steps on how to create an interactive widget in an expo managed react native app can be found [here](https://www.peterarontoth.com/posts/interactive-widgets-in-expo-managed-workflows)
 
 ### Setup
 ```
